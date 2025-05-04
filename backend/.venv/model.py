@@ -62,7 +62,9 @@ class RecipeList:
 """    def edit_recipe(self, name, calories = None, nutritions = None, delete = None):
         self.remove_recipe(name)
 """
-  
+
+
+
 class Day:
     def __init__(self, date = None):
         if date != None:
@@ -89,25 +91,19 @@ class Calendar:
             cls.day_list = {}
         return cls.instance
     
-    def add_day(day : Day, date : datetime = None):
+    def add_day(self, day : Day, date : datetime = None):
         if date == None:
             date = datetime.today().date()
-        self.instance[date] = day
+        self.day_list[date] = day
     
-    def get_day(date = None):
+    def get_day(self, date = None):
         if date == None:
             date = datetime.today().date()
         
-        return self.day_list[date].get_day()
+        return self.day_list[date].get_day() # returns json
 
 if __name__ == "__main__":
     recipeList = RecipeList()
     recipeList.add_recipe("tost", 244, {"prot": 12, "asd": 22})
-     
-
-    day = Day()
- 
-    day.set_meal("tost", 100)
-     
-
+    
     print(recipeList.get_recipeList())
