@@ -25,14 +25,20 @@ def add_recipe():
 
 @app.route("/getDay/<int:date>", methods=["GET"])
 def get_day(date):
-
     calendar = Calendar()
     return calendar.get_day(date)
 
-@app.route("/addDay", methods=["POST"])
-def add_day():
-    date = "todo"
-    pass
+# input : meal_name : string, grams : int
+@app.route("/addMealtoDay/<int:date>", methods=["POST"]) # Should return true of false
+def add_meal_to_day(date):
+    meal_name = request.json.get("meal_name")
+    grams = request.json.get("grams")
+
+    print(f"{meal_name}, {grams}, {date}")
+    calendar = Calendar()
+    calendar.add_meal_to_day(date, meal_name, grams)  
+
+    return jsonify({"message":"Meal Added"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

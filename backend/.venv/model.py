@@ -77,12 +77,23 @@ class Day:
         recipeList = RecipeList()
         meal_obj = recipeList.get_recipe(meal_name)
         self.meals[meal_obj] = grams
+        print(self.meals[meal_obj])
 
     def get_day(self):
         return json.dumps({
             'date': str(self.date),
             'meals': {meal.name: {'grams': grams, "nutritions": meal.nutritions} for meal, grams in self.meals.items()}
         }, indent=4)
+        
+    def calculate_totals(self):
+        totals = {}
+        for meal, grams in self.meals.items():
+            for n, val in meal.nutritions.items():
+                totals[n] = totals.get(n, 0) + val * grams / 100
+        return totals
+
+
+
 
 class Calendar:
     def __new__(cls):
@@ -91,16 +102,24 @@ class Calendar:
             cls.day_list = {}
         return cls.instance
     
-    def add_day(self, day : Day, date : datetime = None):
+    """def add_day(self, day : Day, date : datetime = None):
         if date == None:
             date = datetime.today().date()
-        self.day_list[date] = day
+        self.day_list[date] = day"""
     
-    def get_day(self, date = None):
-        if date == None:
-            date = datetime.today().date()
+    def add_meal_to_day(self, date : None, meal_name, grams):
+        self.get_day(date)
         
-        return self.day_list[date].get_day() # returns json
+        self.day_list[date].set_meal(meal_name, grams)
+    
+    def get_day(self, date=None):
+        if date is None:
+            date = datetime.today().date()
+
+        if date not in self.day_list or self.day_list[date] is None:
+            self.day_list[date] = Day(date)
+        
+        return self.day_list[date].get_day()  # Call the method to return JSON
 
 if __name__ == "__main__":
     recipeList = RecipeList()
