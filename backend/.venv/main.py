@@ -38,7 +38,13 @@ def add_meal_to_day(date):
     calendar = Calendar()
     calendar.add_meal_to_day(date, meal_name, grams)  
 
-    return jsonify({"message":"Meal Added"}), 200
+    outp = "Meal Added " + str(request.get_json())
+    return jsonify({"message": outp}), 200
+
+@app.route("/calculatetotals/<int:date>", methods=["GET"])
+def calculate_totals(date):
+    calendar = Calendar()
+    return calender.calculate_totals()
 
 if __name__ == '__main__':
     app.run(debug=True)

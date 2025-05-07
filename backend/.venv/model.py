@@ -101,12 +101,7 @@ class Calendar:
             cls.instance = super(Calendar,cls).__new__(cls)
             cls.day_list = {}
         return cls.instance
-    
-    """def add_day(self, day : Day, date : datetime = None):
-        if date == None:
-            date = datetime.today().date()
-        self.day_list[date] = day"""
-    
+        
     def add_meal_to_day(self, date : None, meal_name, grams):
         self.get_day(date)
         
