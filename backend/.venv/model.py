@@ -77,13 +77,14 @@ class Day:
         recipeList = RecipeList()
         meal_obj = recipeList.get_recipe(meal_name)
         self.meals[meal_obj] = grams
-        print(self.meals[meal_obj])
+
+        if grams == 0:
+            self.meals.pop(meal_obj) # Delete the meal if grams are set to 0
 
     def get_day(self):
         return json.dumps({
             'date': str(self.date),
-            'meals': {meal.name: {'grams': grams, "nutritions": meal.nutritions} for meal, grams in self.meals.items()}
-        }, indent=4)
+        'meals': {meal.name: { 'grams': grams,  'nutritions': {nutrition: gram*grams/100 for nutrition, gram in (meal.nutritions or {}).items()}} for meal, grams in self.meals.items() }}, indent=4)
         
     def calculate_totals(self):
         totals = {}
@@ -115,6 +116,14 @@ class Calendar:
             self.day_list[date] = Day(date)
         
         return self.day_list[date].get_day()  # Call the method to return JSON
+    
+    def calculate_totals(self, date = None):
+        if date is None:
+            date = datetime.today().date()
+
+        self.get_day(date)
+
+        return self.day_list[date].calculate_totals()
 
 if __name__ == "__main__":
     recipeList = RecipeList()

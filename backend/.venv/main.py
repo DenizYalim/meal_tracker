@@ -6,7 +6,9 @@ from config import app, swagger
 @app.route("/recipeList", methods=["GET"])
 def get_recipeList():
     recipeList = RecipeList()
-    return recipeList.get_recipeList()
+    data = recipeList.get_recipeList()
+    print(data)
+    return data
 
 @app.route("/addrecipe", methods=["POST"])
 def add_recipe():
@@ -44,7 +46,7 @@ def add_meal_to_day(date):
 @app.route("/calculatetotals/<int:date>", methods=["GET"])
 def calculate_totals(date):
     calendar = Calendar()
-    return calender.calculate_totals()
+    return calendar.calculate_totals(date)
 
 if __name__ == '__main__':
     app.run(debug=True)
