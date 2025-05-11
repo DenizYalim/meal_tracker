@@ -55,7 +55,11 @@ class RecipeList:
                 self.recipeList.remove(r)
     
     def get_recipeList(self):
-        recipes = [{"name": m.name, "calories": m.calories, "nutritions": m.nutritions} for m in self.recipeList]
+        # recipes = [ {m.name : { "calories": m.calories, "nutritions": m.nutritions}} for m in self.recipeList]
+        recipes = {}
+        for m in self.recipeList:
+            recipes[m.name] = {"calories": m.calories, "nutritions": m.nutritions}
+
         json_output = json.dumps(recipes, indent=4)  # Pretty formatting (optional) 
         return json_output
 

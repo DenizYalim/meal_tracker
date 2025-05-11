@@ -2,8 +2,7 @@
 import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const foods = ['apple', 'banana', 'carrot'];
-  const besin = ['apple', 'banana', 'carrot'];
+  const foods = ['apple', 'banana', 'carrot']; 
   const [amounts, setAmounts] = useState<{ [key: string]: string }>({});
 
   function handleChange(food: string, value: string) {
@@ -31,8 +30,8 @@ export default function Home() {
     );
   } 
 
-function RecipeList({ besin }: { besin: string[] }) {
-  const [data, setData] = useState(null);
+function RecipeList({}: {}) {
+  const [data, setData] = useState<Map<string, any>>(new Map());
   const [isDataFetched, setIsDataFetched] = useState(false);
 
   const fetchData = () => {
@@ -47,23 +46,29 @@ function RecipeList({ besin }: { besin: string[] }) {
         .catch(error => console.error("Error fetching data:", error));
     }
   };
-
-  // Call fetchData when the component renders for the first time
+ 
   if (!isDataFetched) {
     fetchData();
   }
 
   console.log("After data fetch");
+
+
+  if(!data){
+    return <div><h2>Recipelist :</h2>Loading...</div>
+  }
   console.log(data);
 
+  const recipeListMap = new Map(Object.entries(data));
+
+  console.log(recipeListMap)
+  
   return (
     <div style={{ border: "2px solid white", padding: "10px" }}>
-      <h2>Bugün yediklerin, Meal :</h2>
+      <h2>Recipelist :</h2>
       <ul>
-        {besin.map((food) => (
-          <li key={food}>
-            {food}, {besin.indexOf(food)}
-          </li>
+         {[...recipeListMap.keys()].map((key) => (
+          <li key={key}>{key}</li>
         ))}
       </ul>
     </div>
@@ -95,7 +100,7 @@ function RecipeList({ besin }: { besin: string[] }) {
         <br></br>
         <EatenToday foods={foods} />
         <br></br>
-        <RecipeList besin={besin} />
+        <RecipeList/>
         <br></br>
         <NutritionGainedToday />
         <br></br>
