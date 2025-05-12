@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-function RecipeList({ }: {}) {
+function RecipeList({}) {
     const [data, setData] = useState<Map<string, any>>(new Map());
     const [isDataFetched, setIsDataFetched] = useState(false);
 
@@ -10,7 +10,6 @@ function RecipeList({ }: {}) {
             fetch("http://127.0.0.1:5000/recipeList")
                 .then(response => response.json())
                 .then(fetchedData => {
-                    console.log(fetchedData);  // Logs the fetched data
                     setData(fetchedData);  // Updates the state
                     setIsDataFetched(true); // Ensure it doesn't fetch again
                 })
@@ -22,18 +21,13 @@ function RecipeList({ }: {}) {
         fetchData();
     }
 
-    console.log("After data fetch");
-
 
     if (!data) {
         return <div><h2>Recipelist :</h2>Loading...</div>
     }
-    console.log(data);
 
     const recipeListMap = new Map(Object.entries(data));
-
-    console.log(recipeListMap)
-
+ 
     return (
         <div style={{ border: "2px solid white", padding: "10px" }}>
             <h1>Food Data Keys</h1>
