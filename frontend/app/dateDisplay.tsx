@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 
+let currentDate = new Date();
+
+export const getDateForApi = () => {
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  return `${year}${month}${day}`;
+};
+
 function DateDisplay() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-
-  const getDateForApi = () => {
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-
-    return `${year}${month}${day}`;
-  };
+  const [a, seta] = useState(new Date());
 
   const setDateToYesterday = () => {
-    setCurrentDate(new Date(currentDate.setDate(currentDate.getDate() - 1)));
+    currentDate.setDate(currentDate.getDate() - 1)
+    seta(new Date(a.setDate(a.getDate() - 1)));
   };
 
   const setDateToTomorrow = () => {
-    setCurrentDate(new Date(currentDate.setDate(currentDate.getDate() + 1)));
+    currentDate.setDate(currentDate.getDate() + 1)
+    seta(new Date(a.setDate(a.getDate() + 1)));
   };
 
   return (

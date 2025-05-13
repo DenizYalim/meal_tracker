@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import getDateForApi from './dateDisplay';
+import DateDisplay, {getDateForApi}  from './dateDisplay';
+
 
 
 
@@ -13,15 +14,14 @@ function EatenToday({ date }: any) { // endpoint : /getDay/20250506
     console.log(getDateForApi().toString())
     const stringm = `http://127.0.0.1:5000/getDay/${dateForApi}`;
 
-
-    console.log(stringm)
+    // console.log(stringm)
 
     const fetchData = () => {
         if (!isDataFetched) {
             fetch(stringm)
                 .then(response => response.json())
                 .then(fetchedData => {
-                    console.log(fetchedData);  // Logs the fetched data
+                    // console.log(fetchedData);  // Logs the fetched data
                     setData(fetchedData);  // Updates the state
                     setIsDataFetched(true); // Ensure it doesn't fetch again
                 })
@@ -39,29 +39,22 @@ function EatenToday({ date }: any) { // endpoint : /getDay/20250506
         return <div><h2>Recipelist :</h2>Loading...</div>
     }
 
-    //console.log(data)
-    const recipeListMap = new Map(Object.entries(data));
+    const eatenMap = new Map(Object.entries(data));
+    const meals = eatenMap.get("meals");
+
     return (
         <div style={{ border: "2px solid white", padding: "10px" }}>
             <h1>Eaten Today</h1>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-                {[...recipeListMap.keys()].map((key) => (
-                    <li
-                        key={key}
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: '10px',
-                            //borderBottom: '1px solid #ccc',
-                        }}
-                    >
-                        <span>{key}</span>
+                {meals && Object.keys(meals).map((key) => (
+                    <li key={key}>
+                        {key} - {meals[key].grams} grams
                     </li>
                 ))}
             </ul>
         </div>
     );
+
 }
 
 export default EatenToday;

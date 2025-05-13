@@ -7,7 +7,7 @@ from config import app, swagger
 def get_recipeList():
     recipeList = RecipeList()
     data = recipeList.get_recipeList()
-    print(data)
+    # print(data)
     return data
 
 @app.route("/addrecipe", methods=["POST"])
@@ -22,7 +22,7 @@ def add_recipe():
         return jsonify({"error": "You must enter a name for this recipe"}), 400
 
     recipeList.add_recipe(name, calories, nutritions)
-    print(recipeList.get_recipeList())
+    # print(recipeList.get_recipeList())
     return jsonify({"message": "All right"}), 200    
 
 @app.route("/getDay/<int:date>", methods=["GET"])
@@ -36,7 +36,7 @@ def add_meal_to_day(date):
     meal_name = request.json.get("meal_name")
     grams = request.json.get("grams")
 
-    print(f"{meal_name}, {grams}, {date}")
+    # print(f"{meal_name}, {grams}, {date}")
     calendar = Calendar()
     calendar.add_meal_to_day(date, meal_name, grams)  
 
